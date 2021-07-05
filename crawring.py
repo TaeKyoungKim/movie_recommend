@@ -21,3 +21,20 @@ def get_movie_link(url):
 # print(movie_links)
 
 
+def genre_list(url):
+  movie_links_list = get_movie_link(url)
+  genre_list=[]
+  for movie_url in movie_links_list:
+    res = requests.get(movie_url)
+    content = res.text
+    soup = BeautifulSoup(content , 'html5lib')
+    genre = soup.find_all('table', class_='info_area')
+
+    for genre in genre:
+      genre_list.append(genre.a.get_text())
+      # print(genre.a.get_text())
+  return genre_list
+
+url = "http://movie.naver.com/movie/point/af/list.nhn"
+genre_list_data = genre_list(url)
+print(genre_list_data)
